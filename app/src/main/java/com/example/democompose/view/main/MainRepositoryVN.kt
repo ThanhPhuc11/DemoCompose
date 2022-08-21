@@ -4,8 +4,8 @@ import com.example.democompose.network.ApiService
 import com.example.democompose.network.ApiServiceVN
 import kotlinx.coroutines.flow.flow
 
-class MainRepository(private val apiService: ApiServiceVN) {
-    suspend fun getUnit() = flow {
+class MainRepositoryVN(private val apiService: ApiServiceVN) {
+    suspend fun getChampion() = flow {
         emit(apiService.getChampion())
     }
 }

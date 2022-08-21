@@ -12,14 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalFocusManager
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.nagaja.the330.utils.ColorUtils
 
 @Composable
 fun BaseComposeScreen(modifier: Modifier = Modifier, layout: @Composable ColumnScope.() -> Unit) {
 //    val focusManager = LocalFocusManager.current
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = ColorUtils.white_FFFFFF
+        color = ColorUtils.black_000000
     )
     Column(
         modifier = modifier

@@ -27,13 +27,9 @@ fun MyAppNavHost(
             MainScreen(navController)
         }
         composable(
-            Screen.DetailScreen.route + "/{userId}/{nameId}",
+            Screen.DetailScreen.route + "/{championId}",
             arguments = listOf(
-                navArgument("userId") {
-                    type = NavType.StringType
-                    nullable = true
-                },
-                navArgument("nameId") {
+                navArgument("championId") {
                     type = NavType.StringType
                     nullable = true
                 }

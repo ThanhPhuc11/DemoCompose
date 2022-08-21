@@ -1,29 +1,47 @@
 package com.example.democompose.view.main
 
 import android.util.Log
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
-import com.example.democompose.model.UserModel
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.example.democompose.BuildConfig
+import com.example.democompose.R
+import com.example.democompose.model.ChampionModel
 import com.example.democompose.ui.theme.BaseComposeScreen
+import com.example.democompose.ui.theme.ColorUtils
+import com.example.democompose.ui.theme.noRippleClickable
 import com.example.democompose.view.Screen
-import com.google.gson.Gson
+import com.skydoves.landscapist.glide.GlideImage
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(navController: NavHostController) {
     val viewModel = getViewModel<MainViewModel>()
-    val shareVM =
+    val shareViewModel =
         ViewModelProvider(navController.getBackStackEntry(Screen.MainScreen.route))[ShareViewModel::class.java]
-    Log.e("shareMain", shareVM.toString())
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         // Create an observer that triggers our remembered callbacks
@@ -32,6 +50,7 @@ fun MainScreen(navController: NavHostController) {
             when (event) {
                 Lifecycle.Event.ON_CREATE -> {
                     Log.e("phucdz", "ON_CREATE")
+//                    viewModel.getUnit()
                 }
                 Lifecycle.Event.ON_START -> {
                     Log.e("phucdz", "ON_START")
@@ -62,24 +81,84 @@ fun MainScreen(navController: NavHostController) {
 
         // When the effect leaves the Composition, remove the observer
         onDispose {
-            Log.e("phucdz", "onDispose")
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-    BaseComposeScreen {
-        Text(text = "Hello ${viewModel.str.value}", Modifier.clickable {
-            navController.navigate(
-                Screen.DetailScreen.withArgs(
-                    Gson().toJson(UserModel("phucGson")),
-                    null
+    BaseComposeScreen(Modifier.verticalScroll(rememberScrollState())) {
+
+        val list = viewModel.listChampion
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(4),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            modifier = Modifier
+                .background(ColorUtils.gray_3C3C43)
+                .fillMaxWidth()
+                .heightIn(0.dp, 1000.dp)
+                .wrapContentHeight()
+        ) {
+            itemsIndexed(list) { index, obj ->
+                ItemChampion(obj) {
+                    shareViewModel.championModel.value = obj
+                    navController.navigate(
+                        Screen.DetailScreen.withArgs(obj.championId)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ItemChampion(obj: ChampionModel = ChampionModel(), onClick: (() -> Unit)? = null) {
+    Column(
+        Modifier
+            .padding(vertical = 10.dp)
+            .noRippleClickable {
+                onClick?.invoke()
+            },
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val configuration = LocalConfiguration.current
+        val screenWidth = configuration.screenWidthDp
+        Box(
+            Modifier
+                .width((screenWidth / 5).dp)
+                .height((screenWidth / 5).dp)
+                .border(
+                    width = 1.dp,
+                    color = getColorByCost(obj.cost ?: 1),
+                    shape = RoundedCornerShape(4.dp)
                 )
+        ) {
+            GlideImage(
+                imageModel = "${BuildConfig.BASE_IMAGE}${obj.image}",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(4.dp)),
+//                placeHolder = painterResource(R.drawable.ic_default),
+                error = painterResource(R.drawable.ic_default),
+                requestOptions = {
+                    RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                }
             )
-        })
-        Text(text = "Hello screen2!", Modifier.clickable {
-            viewModel.str.value = "456"
-            shareVM.shareText = "100"
-//            navController.navigate(Screen.DetailScreen.withArgs(null, "nameIDDD"))
-            viewModel.getUnit()
-        })
+        }
+        Text(
+            obj.name ?: "",
+            color = ColorUtils.white_FFFFFF,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(top = 5.dp)
+        )
+    }
+}
+
+fun getColorByCost(cost: Int): Color {
+    return when (cost) {
+        1 -> ColorUtils.color_cost_1
+        2 -> ColorUtils.color_cost_2
+        3 -> ColorUtils.color_cost_3
+        4 -> ColorUtils.color_cost_4
+        5 -> ColorUtils.color_cost_5
+        else -> ColorUtils.color_cost_1
     }
 }

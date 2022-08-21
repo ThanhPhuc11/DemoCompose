@@ -24,7 +24,7 @@ import javax.net.ssl.X509TrustManager
 object RetrofitBuilder {
     private var retrofit: Retrofit? = null
 
-    private const val BASE_URL = BuildConfig.BASE_URL
+    private const val BASE_URL = BuildConfig.BASE_URL_VN
 
     private var httpClientBuilder: OkHttpClient.Builder? = null
     fun getInstance(): Retrofit? {

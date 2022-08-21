@@ -1,4 +1,4 @@
-package com.nagaja.the330.utils
+package com.example.democompose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -35,7 +35,9 @@ object ColorUtils {
     val gray_F5F5F5 = Color(0xFFF5F5F5)
     val gray_F2F2F2 = Color(0xFFF2F2F2)
     val gray_3C3C43 = Color(0xFF3C3C43)
-    val gray_00000D= Color(0x0000000D)
+    val gray_00000D = Color(0x0000000D)
+
+    val green_11B288 = Color(0xFF11B288)
 
     val white_FFFFFF = Color(0xFFFFFFFF)
     val black_000000 = Color(0xFF000000)
@@ -43,6 +45,16 @@ object ColorUtils {
 
     val yellow_FFCD00 = Color(0xFFFFCD00)
     val yellow_FFB800_opacity_5 = Color(0x0DFFB800)
+    val yellow_FFB93B = Color(0xFFFFB93B)
     val green_1EC800 = Color(0xFF1EC800)
-    val blue_3B5998 = Color(0xFF3B5998)
+    val blue_207AC7 = Color(0xFF207AC7)
+
+    val purple_C440DA = Color(0xFFC440DA)
+    val purple_2C2750 = Color(0xFF2C2750)
+
+    val color_cost_1 = gray_EEEEEE
+    val color_cost_2 = green_11B288
+    val color_cost_3 = blue_207AC7
+    val color_cost_4 = purple_C440DA
+    val color_cost_5 = yellow_FFB93B
 }
