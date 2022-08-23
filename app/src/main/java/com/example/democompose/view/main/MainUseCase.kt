@@ -1,14 +1,8 @@
 package com.example.democompose.view.main
 
-import android.util.Log
-import com.example.democompose.model.BaseResponse
 import com.example.democompose.model.GameDataModel
-import com.example.democompose.model.UnitModel
-import com.example.democompose.network.ApiService
-import com.example.democompose.network.ApiServiceVN
 import com.example.democompose.utils.AppConstants
 import kotlinx.coroutines.flow.Flow
-import org.koin.java.KoinJavaComponent.inject
 
 
 class MainUseCase(private val repoVN: MainRepositoryVN) {
@@ -20,6 +14,6 @@ class MainUseCase(private val repoVN: MainRepositoryVN) {
     }
 
     fun getBaseImageChamp() : String {
-        return AppConstants.BASE_IMAGE_DTCL_LOL
+        return AppConstants.BASE_IMAGE_DTCL_LOL_CHAMP
     }
 }

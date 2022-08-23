@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.democompose.model.ChampionModel
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val useCase: DetailUseCase) : ViewModel() {
     val championObj = mutableStateOf(ChampionModel())
 
     fun getUrlImageTrait(index: Int): String {
@@ -13,9 +13,11 @@ class DetailViewModel : ViewModel() {
         return "https://dtcl.lol/trait/img2/$trait.png"
     }
 
+    fun getUrlImageSkill(): String {
+        return useCase.getUrlImageSkill()
+    }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.e("detailviewmodel", "onCleared")
+    fun getUrlImageSplash(): String {
+        return useCase.getUrlImageSplash()
     }
 }

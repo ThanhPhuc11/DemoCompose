@@ -69,7 +69,7 @@ fun DetailScreen(navController: NavHostController, arguments: Bundle?) {
             ConstraintLayout {
                 val (content, traits) = createRefs()
                 GlideImage(
-                    imageModel = "${BuildConfig.BASE_IMAGE_MOBALYTICS}${shareViewModel.championModel.value.slug}.jpg",
+                    imageModel = "${viewModel.getUrlImageSplash()}${viewModel.championObj.value.slug}.jpg",
                     modifier = Modifier
                         .background(ColorUtils.black_000000)
                         .height(300.dp),
@@ -135,16 +135,26 @@ fun DetailScreen(navController: NavHostController, arguments: Bundle?) {
                 )
                 Row(Modifier.padding(top = 16.dp)) {
                     GlideImage(
-                        imageModel = "https://dtcl.lol/skill/${viewModel.championObj.value.skill?.img}",
+                        imageModel = "${viewModel.getUrlImageSkill()}${viewModel.championObj.value.skill?.img}",
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .size(60.dp, 60.dp)
                     )
-                    Text(
-                        viewModel.championObj.value.skill?.description ?: "",
-                        color = ColorUtils.white_FFFFFF,
-                        fontSize = 14.sp
-                    )
+                    Column {
+                        Text(
+                            viewModel.championObj.value.skill?.description ?: "",
+                            color = ColorUtils.white_FFFFFF,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                        viewModel.championObj.value.skill?.sets?.forEach { obj ->
+                            Text(
+                                "${obj.name}: ${obj.description}",
+                                color = ColorUtils.white_FFFFFF,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
                 }
 
             }

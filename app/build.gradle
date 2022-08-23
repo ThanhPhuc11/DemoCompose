@@ -19,7 +19,6 @@ android {
         }
 
         buildConfigField 'String', 'BASE_URL', '"https://api2.metatft.com/"'
-        buildConfigField 'String', 'BASE_IMAGE_MOBALYTICS', '"https://cdn.mobalytics.gg/assets/tft/images/champions/thumbnail/set7/"'
     }
 
     buildTypes {

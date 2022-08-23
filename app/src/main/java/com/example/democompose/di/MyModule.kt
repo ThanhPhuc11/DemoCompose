@@ -3,6 +3,7 @@ package com.example.democompose.di
 import com.example.democompose.network.ApiService
 import com.example.democompose.network.ApiServiceVN
 import com.example.democompose.network.RetrofitBuilder
+import com.example.democompose.view.detail.DetailUseCase
 import com.example.democompose.view.detail.DetailViewModel
 import com.example.democompose.view.main.MainRepository
 import com.example.democompose.view.main.MainRepositoryVN
@@ -15,13 +16,14 @@ import retrofit2.create
 
 val appModule = module {
     viewModel { MainViewModel(get()) }
-    viewModel { DetailViewModel() }
+    viewModel { DetailViewModel(get()) }
 
     single { MainUseCase(get()) }
+    single { DetailUseCase() }
 
-    single { MainRepository(get()) }
+//    single { MainRepository(get()) }
     single { MainRepositoryVN(get()) }
 
-    single { RetrofitBuilder.getInstance()?.create(ApiService::class.java) }
-    single { RetrofitBuilder.getInstance()?.create(ApiServiceVN::class.java) }
+//    single { RetrofitBuilder.getInstance()?.create(ApiService::class.java) }
+    single { RetrofitBuilder.getInstance(RetrofitBuilder.RetrofitType.DTCL_LOL)?.create(ApiServiceVN::class.java) }
 }

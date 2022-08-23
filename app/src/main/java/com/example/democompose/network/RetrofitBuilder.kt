@@ -1,6 +1,5 @@
 package com.example.democompose.network
 
-import com.example.democompose.BuildConfig
 import com.example.democompose.utils.AppConstants
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -24,12 +23,15 @@ import javax.net.ssl.X509TrustManager
 
 object RetrofitBuilder {
     private var retrofit: Retrofit? = null
+    private var retrofitDTCLLOL: Retrofit? = null
+    private var retrofitMOBALYTICS: Retrofit? = null
+    private var retrofitMETATFT: Retrofit? = null
 
-    private const val BASE_URL = AppConstants.BASE_URL_DTCL_LOL
+    private var BASE_URL = AppConstants.BASE_URL_DTCL_LOL
 
     private var httpClientBuilder: OkHttpClient.Builder? = null
-    fun getInstance(): Retrofit? {
-        if (retrofit == null) {
+    fun getInstance(type: RetrofitType): Retrofit? {
+        if (getRetrofitByCase(type) == null) {
             httpClientBuilder = OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -48,9 +50,44 @@ object RetrofitBuilder {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClientBuilder!!.build())
-            retrofit = builder.build()
+//            retrofit = builder.build()
+            setRetrofitByCase(type, builder.build())
         }
-        return retrofit
+        return getRetrofitByCase(type)
+    }
+
+    private fun getRetrofitByCase(type: RetrofitType): Retrofit? {
+        return when (type) {
+            RetrofitType.DTCL_LOL -> {
+                BASE_URL = AppConstants.BASE_URL_DTCL_LOL
+                retrofitDTCLLOL
+            }
+            RetrofitType.MOBALYTICS -> {
+//                BASE_URL = AppConstants
+                retrofitMOBALYTICS
+            }
+            RetrofitType.METATFT -> {
+                retrofitMETATFT
+            }
+        }
+    }
+
+    private fun setRetrofitByCase(type: RetrofitType, retrofitTemp: Retrofit) {
+        when (type) {
+            RetrofitType.DTCL_LOL -> {
+                retrofitDTCLLOL = retrofitTemp
+            }
+            RetrofitType.MOBALYTICS -> {
+                retrofitMOBALYTICS = retrofitTemp
+            }
+            RetrofitType.METATFT -> {
+                retrofitMETATFT = retrofitTemp
+            }
+        }
+    }
+
+    enum class RetrofitType {
+        DTCL_LOL, MOBALYTICS, METATFT
     }
 
     class OAuthInterceptor : Interceptor {
