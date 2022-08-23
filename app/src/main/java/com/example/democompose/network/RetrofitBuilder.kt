@@ -1,6 +1,7 @@
 package com.example.democompose.network
 
 import com.example.democompose.BuildConfig
+import com.example.democompose.utils.AppConstants
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -24,7 +25,7 @@ import javax.net.ssl.X509TrustManager
 object RetrofitBuilder {
     private var retrofit: Retrofit? = null
 
-    private const val BASE_URL = BuildConfig.BASE_URL_VN
+    private const val BASE_URL = AppConstants.BASE_URL_DTCL_LOL
 
     private var httpClientBuilder: OkHttpClient.Builder? = null
     fun getInstance(): Retrofit? {

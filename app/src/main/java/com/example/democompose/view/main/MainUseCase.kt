@@ -6,6 +6,7 @@ import com.example.democompose.model.GameDataModel
 import com.example.democompose.model.UnitModel
 import com.example.democompose.network.ApiService
 import com.example.democompose.network.ApiServiceVN
+import com.example.democompose.utils.AppConstants
 import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.inject
 
@@ -16,5 +17,9 @@ class MainUseCase(private val repoVN: MainRepositoryVN) {
 
     suspend fun getUnit(): Flow<GameDataModel> {
         return repoVN.getChampion()
+    }
+
+    fun getBaseImageChamp() : String {
+        return AppConstants.BASE_IMAGE_DTCL_LOL
     }
 }

@@ -32,6 +32,7 @@ import com.example.democompose.model.ChampionModel
 import com.example.democompose.ui.theme.BaseComposeScreen
 import com.example.democompose.ui.theme.ColorUtils
 import com.example.democompose.ui.theme.noRippleClickable
+import com.example.democompose.utils.AppConstants
 import com.example.democompose.view.Screen
 import com.skydoves.landscapist.glide.GlideImage
 import org.koin.androidx.compose.getViewModel
@@ -87,17 +88,18 @@ fun MainScreen(navController: NavHostController) {
     BaseComposeScreen(Modifier.verticalScroll(rememberScrollState())) {
 
         val list = viewModel.listChampion
+        val baseImageUrl = viewModel.getBaseImageChamp()
         LazyVerticalGrid(
             cells = GridCells.Fixed(4),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier
-                .background(ColorUtils.gray_3C3C43)
+                .background(ColorUtils.purple_2C2750)
                 .fillMaxWidth()
                 .heightIn(0.dp, 1000.dp)
                 .wrapContentHeight()
         ) {
             itemsIndexed(list) { index, obj ->
-                ItemChampion(obj) {
+                ItemChampion(obj, baseImageUrl) {
                     shareViewModel.championModel.value = obj
                     navController.navigate(
                         Screen.DetailScreen.withArgs(obj.championId)
@@ -110,7 +112,11 @@ fun MainScreen(navController: NavHostController) {
 
 @Preview
 @Composable
-fun ItemChampion(obj: ChampionModel = ChampionModel(), onClick: (() -> Unit)? = null) {
+fun ItemChampion(
+    obj: ChampionModel = ChampionModel(),
+    baseUrl: String = "",
+    onClick: (() -> Unit)? = null
+) {
     Column(
         Modifier
             .padding(vertical = 10.dp)
@@ -132,11 +138,11 @@ fun ItemChampion(obj: ChampionModel = ChampionModel(), onClick: (() -> Unit)? = 
                 )
         ) {
             GlideImage(
-                imageModel = "${BuildConfig.BASE_IMAGE}${obj.image}",
+                imageModel = "$baseUrl${obj.image}",
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp)),
 //                placeHolder = painterResource(R.drawable.ic_default),
-                error = painterResource(R.drawable.ic_default),
+//                error = painterResource(R.drawable.ic_default),
                 requestOptions = {
                     RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

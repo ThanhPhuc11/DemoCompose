@@ -35,6 +35,7 @@ object ColorUtils {
     val gray_F5F5F5 = Color(0xFFF5F5F5)
     val gray_F2F2F2 = Color(0xFFF2F2F2)
     val gray_3C3C43 = Color(0xFF3C3C43)
+    val gray_27282B = Color(0xFF27282B)
     val gray_00000D = Color(0x0000000D)
 
     val green_11B288 = Color(0xFF11B288)
@@ -51,6 +52,7 @@ object ColorUtils {
 
     val purple_C440DA = Color(0xFFC440DA)
     val purple_2C2750 = Color(0xFF2C2750)
+    val purple_3F3872 = Color(0xFF3F3872)
 
     val color_cost_1 = gray_EEEEEE
     val color_cost_2 = green_11B288

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.democompose.model.ChampionModel
+import com.example.democompose.utils.AppConstants
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -34,8 +35,7 @@ class MainViewModel(private val useCase: MainUseCase) : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.e("mainviewmodel", "onCleared")
+    fun getBaseImageChamp() : String {
+        return useCase.getBaseImageChamp()
     }
 }
